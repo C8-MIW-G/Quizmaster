@@ -59,4 +59,8 @@ public class DBAccess {
     public Connection getConnection()  {
         return connection;
     }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
 }

@@ -12,15 +12,11 @@ class UserDAOTest {
     void storeOne() {
         // Arrange
         User user = new User("Vincent", "VincentPW");
-        DBAccess dbAccess = new DBAccess("Quizmaster",
-                "userQuizmaster", "userQuizmasterPW");
-        dbAccess.openConnection();
-        UserDAO userDAO = new UserDAO(dbAccess);
+        UserDAO userDAO = new UserDAO(TestDB.getDbAccess());
         int defaultUserId = -1;
 
         // Activate
         userDAO.storeOne(user);
-        dbAccess.closeConnection();
 
         // Assert
         assertNotEquals(defaultUserId, user.getUserId());
@@ -28,5 +24,19 @@ class UserDAOTest {
 
     @Test
     void updateOne() {
+        // Arrange
+        User user = new User("Vincent", "VincentPW");
+        UserDAO userDAO = new UserDAO(TestDB.getDbAccess());
+        userDAO.storeOne(user);
+        String newUserName = "Rogier";
+
+        // Activate
+        user.setUsername(newUserName);
+        userDAO.updateOne(user);
+
+        user = userDAO.getOneById(user.getUserId());
+
+        // Assert
+        assertEquals(newUserName, user.getUsername());
     }
 }
