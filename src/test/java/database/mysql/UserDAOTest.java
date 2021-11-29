@@ -25,10 +25,10 @@ class UserDAOTest {
     @Test
     void updateOne() {
         // Arrange
-        User user = new User("Vincent", "VincentPW");
+        User user = new User("Laurens", "LaurensPW");
         UserDAO userDAO = new UserDAO(TestDB.getDbAccess());
         userDAO.storeOne(user);
-        String newUserName = "Rogier";
+        String newUserName = "Martinus";
 
         // Activate
         user.setUsername(newUserName);
