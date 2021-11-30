@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 /**
  * @author Vincent Velthuizen <v.r.velthuizen@pl.hanze.nl>
  *
@@ -23,6 +25,19 @@ public class User {
         this.userId = userId;
         this.username = username;
         this.password = null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId == user.userId && username.equals(user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, username);
     }
 
     public int getUserId() {

@@ -19,8 +19,22 @@ public class UserDAO extends AbstractDAO implements GenericDAO<User> {
 
     @Override
     public ArrayList<User> getAll() {
-        // TODO
-        return null;
+        ArrayList<User> users = new ArrayList<>();
+        String sql = "SELECT userId, username FROM User";
+
+        try {
+            setupPreparedStatement(sql);
+            ResultSet resultSet = executeSelectStatement();
+            while (resultSet.next()) {
+                int userId = resultSet.getInt(1);
+                String username = resultSet.getString(2);
+                users.add(new User(userId, username));
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return users;
     }
 
     @Override
