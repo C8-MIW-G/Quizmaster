@@ -2,6 +2,7 @@ package database.mysql;
 
 import model.User;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -24,7 +25,19 @@ public class UserDAO extends AbstractDAO implements GenericDAO<User> {
 
     @Override
     public User getOneById(int id) {
-        // TODO
+        String sql = "SELECT username FROM User WHERE userId = ?;";
+
+        try {
+            setupPreparedStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = executeSelectStatement();
+            if (resultSet.next()) {
+                String username = resultSet.getString(1);
+                return new User(id, username);
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
         return null;
     }
 
@@ -53,15 +66,14 @@ public class UserDAO extends AbstractDAO implements GenericDAO<User> {
             throw new IllegalArgumentException("User object without id cannot be updated");
         }
 
-        String sql = "UPDATE User SET (username, password) VALUES (?, ?) WHERE userId = ?;";
+        String sql = "UPDATE User SET username = ?, password = ? WHERE userId = ?;";
 
         try {
-            setupPreparedStatementWithKey(sql);
+            setupPreparedStatement(sql);
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setInt(3, user.getUserId());
-            int userId = executeInsertStatementWithKey();
-            user.setUserId(userId);
+            executeManipulateStatement();
         } catch (SQLException sqlException) {
             System.err.println(sqlException);
         }

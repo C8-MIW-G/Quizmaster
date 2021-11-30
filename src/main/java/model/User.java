@@ -6,14 +6,23 @@ package model;
  * Generic user that can log in and not much else
  */
 public class User {
+    // userId should be set by the database, if it is not set it is -1
+    public static final int DEFAULT_USER_ID = -1;
 
-    private int userId = -1; // userId should be set by the database, if it is not set it is -1
+    private int userId;
     private String username;
     private String password;
 
     public User(String username, String password) {
+        this.userId = DEFAULT_USER_ID;
         this.username = username;
         this.password = password;
+    }
+
+    public User(int userId, String username) {
+        this.userId = userId;
+        this.username = username;
+        this.password = null;
     }
 
     public int getUserId() {

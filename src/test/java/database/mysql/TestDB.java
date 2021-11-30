@@ -38,8 +38,6 @@ public class TestDB {
         }
 
         SQLFileRunner sqlFileRunner = new SQLFileRunner(getDbAccess());
-        //sqlFileRunner.executeSQL("src/test/resources/CreateTestDatabase.sql");
         sqlFileRunner.executeSQL("src/main/resources/CreateTables.sql");
-        getDbAccess().closeConnection();
     }
 }

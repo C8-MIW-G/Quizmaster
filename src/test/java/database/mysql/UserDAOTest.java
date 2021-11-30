@@ -1,12 +1,19 @@
 package database.mysql;
 
 import model.User;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import view.SceneManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserDAOTest {
+
+    @BeforeAll
+    static void resetDatabase(){
+        TestDB.resetDatabase();
+    }
 
     @Test
     void storeOne() {
@@ -39,4 +46,16 @@ class UserDAOTest {
         // Assert
         assertEquals(newUserName, user.getUsername());
     }
+
+    @Test
+    @DisplayName("Update One should fail on new User object")
+    void updateOneShouldFailOnNewUserObject() {
+        // Arrange
+        User user = new User("test", "test");
+        UserDAO userDAO = new UserDAO(TestDB.getDbAccess());
+
+        // Activate / Assert
+        assertThrows(IllegalArgumentException.class, () -> userDAO.updateOne(user));
+    }
+
 }
