@@ -37,6 +37,24 @@ public class UserDAO extends AbstractDAO implements GenericDAO<User> {
         return users;
     }
 
+    public User confirmUserIdentity(String username, String password) {
+        String sql = "SELECT userId FROM User WHERE username = ? AND password = ?";
+
+        try {
+            setupPreparedStatement(sql);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = executeSelectStatement();
+            if (resultSet.next()) {
+                int userId = resultSet.getInt(1);
+                return new User(userId, username);
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return null; // unable to validate user
+    }
+
     @Override
     public User getOneById(int id) {
         String sql = "SELECT username FROM User WHERE userId = ?;";

@@ -84,4 +84,42 @@ class UserDAOTest {
         assertTrue(usersInDb.contains(user2));
     }
 
+    @Test
+    @DisplayName("fail to confirm identity for non existent user")
+    void failToConfirmIdentityForNonExistentUser() {
+        // Activate
+        User user = userDAO.confirmUserIdentity("NonExistent", "NonExistent");
+
+        // Assert
+        assertNull(user);
+    }
+
+    @Test
+    @DisplayName("fail to confirm identity for wrong password")
+    void failToConfirmIdentityForWrongPassword() {
+        // Arrange
+        userDAO.storeOne(new User("Robin", "RobinPW"));
+
+        // Activate
+        User user = userDAO.confirmUserIdentity("Robin", "PWRobin");
+
+        // Assert
+        assertNull(user);
+    }
+
+    @Test
+    @DisplayName("confirm identity for correct credentials")
+    void confirmIdentityForCorrectCredentials() {
+        // Arrange
+        String username = "Louise";
+        String password = "LouisePW";
+        userDAO.storeOne(new User(username, password));
+
+        // Activate
+        User user = userDAO.confirmUserIdentity(username, password);
+
+        // Assert
+        assertNotNull(user);
+    }
+
 }
