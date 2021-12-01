@@ -11,6 +11,8 @@ public class User {
     // userId should be set by the database, if it is not set it is -1
     public static final int DEFAULT_USER_ID = -1;
 
+    public static User loggedInUser = null;
+
     private int userId;
     private String username;
     private String password;
@@ -62,5 +64,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static void setLoggedInUser(User loggedInUser) {
+        User.loggedInUser = loggedInUser;
     }
 }

@@ -43,4 +43,22 @@ public class SQLFileRunner {
             e.printStackTrace();
         }
     }
+
+    public static void resetDatabase(DBAccess dbAccess, String dbName) {
+        try {
+            PreparedStatement preparedStatement = dbAccess.getConnection()
+                    .prepareStatement("DROP SCHEMA IF EXISTS ?;");
+            preparedStatement.setString(1, dbName);
+            preparedStatement.executeUpdate();
+
+            preparedStatement = dbAccess.getConnection().prepareStatement("CREATE SCHEMA ?;");
+            preparedStatement.setString(1, dbName);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        SQLFileRunner sqlFileRunner = new SQLFileRunner(dbAccess);
+        sqlFileRunner.executeSQL("src/main/resources/CreateTables.sql");
+    }
 }

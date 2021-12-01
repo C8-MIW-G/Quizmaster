@@ -1,5 +1,6 @@
 package database.mysql;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
@@ -26,18 +27,8 @@ public class TestDB {
     }
 
     public static void resetDatabase() {
-        try {
-            getDbAccess().getConnection()
-                    .prepareStatement("DROP SCHEMA IF EXISTS `QuizmasterTest`;")
-                    .executeUpdate();
-            getDbAccess().getConnection()
-                    .prepareStatement("CREATE SCHEMA `QuizmasterTest`;")
-                    .executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        SQLFileRunner sqlFileRunner = new SQLFileRunner(getDbAccess());
-        sqlFileRunner.executeSQL("src/main/resources/CreateTables.sql");
+        SQLFileRunner.resetDatabase(getDbAccess(), "QuizmasterTest");
     }
+
+
 }
