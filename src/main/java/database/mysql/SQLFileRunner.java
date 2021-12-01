@@ -16,13 +16,7 @@ import java.util.Scanner;
  */
 public class SQLFileRunner {
 
-    private DBAccess dbAccess;
-
-    public SQLFileRunner(DBAccess dbAccess) {
-        this.dbAccess = dbAccess;
-    }
-
-    public void executeSQL(String fileName) {
+    public static void executeSQL(DBAccess dbAccess, String fileName) {
         try (Scanner sqlFile = new Scanner(new File(fileName))) {
             Statement statement = dbAccess.getConnection().createStatement();
 
@@ -44,21 +38,20 @@ public class SQLFileRunner {
         }
     }
 
-    public static void resetDatabase(DBAccess dbAccess, String dbName) {
+    public static void resetDatabase(DBAccess dbAccess) {
         try {
-            PreparedStatement preparedStatement = dbAccess.getConnection()
-                    .prepareStatement("DROP SCHEMA IF EXISTS ?;");
-            preparedStatement.setString(1, dbName);
-            preparedStatement.executeUpdate();
+            dbAccess.getConnection()
+                    // The database name is not user settable so this should be safe-ish
+                    .prepareStatement("DROP SCHEMA IF EXISTS " + dbAccess.getDatabaseName() + ";")
+                    .executeUpdate();
 
-            preparedStatement = dbAccess.getConnection().prepareStatement("CREATE SCHEMA ?;");
-            preparedStatement.setString(1, dbName);
-            preparedStatement.executeUpdate();
+            dbAccess.getConnection()
+                    .prepareStatement("CREATE SCHEMA " + dbAccess.getDatabaseName() + ";")
+                    .executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        SQLFileRunner sqlFileRunner = new SQLFileRunner(dbAccess);
-        sqlFileRunner.executeSQL("src/main/resources/CreateTables.sql");
+        SQLFileRunner.executeSQL(dbAccess, "src/main/resources/CreateTables.sql");
     }
 }

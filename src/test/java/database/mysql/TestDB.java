@@ -27,7 +27,7 @@ public class TestDB {
     }
 
     public static void resetDatabase() {
-        SQLFileRunner.resetDatabase(getDbAccess(), "QuizmasterTest");
+        SQLFileRunner.resetDatabase(getDbAccess());
     }
 
 
