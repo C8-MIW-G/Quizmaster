@@ -75,7 +75,7 @@ public class UserDAO extends AbstractDAO implements GenericDAO<User> {
 
     @Override
     public void storeOne(User user) {
-        if (user.getUserId() != -1) {
+        if (user.getUserId() != User.DEFAULT_USER_ID) {
             updateOne(user);
             return;
         }
@@ -94,7 +94,7 @@ public class UserDAO extends AbstractDAO implements GenericDAO<User> {
     }
 
     public void updateOne(User user) {
-        if (user.getUserId() == -1) {
+        if (user.getUserId() == User.DEFAULT_USER_ID) {
             throw new IllegalArgumentException("User object without id cannot be updated");
         }
 

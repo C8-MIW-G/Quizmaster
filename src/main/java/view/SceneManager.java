@@ -24,6 +24,7 @@ public class SceneManager {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
             scene = new Scene(root);
+            scene.getStylesheets().add("quizmaster.css");
             primaryStage.setScene(scene);
             return loader;
         } catch (IOException ioException) {

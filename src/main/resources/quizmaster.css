@@ -1,0 +1,15 @@
+#container {
+    -fx-background-color: azure;
+}
+
+.button {
+    -fx-background-color: green;
+}
+
+.danger {
+    -fx-background-color: red;
+}
+
+.danger:hover {
+    -fx-background-color: darkred;
+}
