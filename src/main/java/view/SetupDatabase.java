@@ -26,10 +26,9 @@ public class SetupDatabase {
         Main.getDbAccess().openConnection();
         UserDAO userDAO = new UserDAO(Main.getDbAccess());
 
-        userDAO.storeOne(new User("Merle", "MerlePW"));
-        userDAO.storeOne(new User("Louise", "LouisePW"));
-        userDAO.storeOne(new User("Laurens", "LaurensPW"));
-        userDAO.storeOne(new User("Elisabeth", "ElisabethPW"));
+        userDAO.storeOne(new User("Docent", "DocentPW"));
+        userDAO.storeOne(new User("Student", "StudentPW"));
+        userDAO.storeOne(new User("Admin", "AdminPW"));
 
         Main.getDbAccess().closeConnection();
     }

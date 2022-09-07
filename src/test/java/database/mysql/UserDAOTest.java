@@ -30,7 +30,7 @@ class UserDAOTest {
         // Arrange
         User user = new User("Vincent", "VincentPW");
         UserDAO userDAO = new UserDAO(TestDB.getDbAccess());
-        int defaultUserId = -1;
+        int defaultUserId = user.getUserId();
 
         // Activate
         userDAO.storeOne(user);
